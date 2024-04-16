@@ -103,7 +103,8 @@ def difference_data(data, column, order=1):
     plt.show()
     return differenced_data
 
-#stationary_gdp = make_series_stationary(cleaned_data, 'GDP')
+
+stationary_gdp = make_series_stationary(cleaned_data, 'GDP')
 
 # Apply first differencing to the non-stationary variables
 differenced_inflation = difference_data(cleaned_data, 'Inflation', order=1)
@@ -278,4 +279,3 @@ arima_model_summaries = {
 }
 
 print(arima_model_summaries)
-
