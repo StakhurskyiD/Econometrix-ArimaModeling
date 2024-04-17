@@ -52,34 +52,3 @@ class ArimaTimeSeriesModel:
         print(f"Breusch-Godfrey test: F-stat={bg_test[0]}, p-value={bg_test[1]}")
         print(f"Jarque-Bera test: JB statistic={jb_test[0]}, p-value={jb_test[1]}")
 
-    def forecast_and_plot(self, periods=10):
-        if self.best_model is None:
-            print("No best model has been selected for forecasting.")
-            return
-
-        # Get the last date from the historical data index
-        last_date = self.series.index[-1]
-
-        # Create a date range for the forecast
-        forecast_dates = pd.date_range(start=last_date + pd.Timedelta(days=1), periods=periods,
-                                       freq=self.series.index.freq)
-
-        # Get the forecast result and set the index to the forecast dates
-        forecast_result = self.best_model.get_forecast(steps=periods)
-        forecast = forecast_result.predicted_mean
-        forecast.index = forecast_dates
-
-        # Get the confidence interval and set the index to the forecast dates
-        forecast_conf_int = forecast_result.conf_int()
-        forecast_conf_int.index = forecast_dates
-
-        # Plotting
-        plt.figure(figsize=(10, 5))
-        plt.plot(self.series, label='Historical Data')
-        plt.plot(forecast.index, forecast, label='Forecast')
-        plt.fill_between(forecast_conf_int.index,
-                         forecast_conf_int.iloc[:, 0],
-                         forecast_conf_int.iloc[:, 1],
-                         color='gray', alpha=0.3)
-        plt.legend()
-        plt.show()

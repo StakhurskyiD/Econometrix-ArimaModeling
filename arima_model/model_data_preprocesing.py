@@ -5,10 +5,19 @@ from statsmodels.tsa.stattools import adfuller
 import warnings
 
 
-def ingnore_warnings():
+def ignore_warnings():
+    # Ignore warnings related to non-invertible starting MA parameters
     warnings.filterwarnings('ignore', category=UserWarning, message='Non-invertible starting MA parameters found.*')
+
+    # Ignore warnings about non-stationary starting autoregressive parameters
+    warnings.filterwarnings('ignore', category=UserWarning,
+                            message='Non-stationary starting autoregressive parameters found.*')
+
+    # Ignore warnings related to date index with no frequency information
     warnings.filterwarnings('ignore', category=ValueWarning,
                             message='A date index has been provided, but it has no associated frequency information.*')
+
+    # Ignore warnings about optimization failures in maximum likelihood calculations
     warnings.filterwarnings('ignore', category=ConvergenceWarning,
                             message='Maximum Likelihood optimization failed to converge.*')
 
@@ -88,10 +97,3 @@ def show_stationary_data(stationary_data):
         print(f"Order of Differencing: {order}")
         series.plot(title=f"Stationary Series for {column}")
         plt.show()
-
-
-
-# Example usage assuming 'df' is your DataFrame loaded with data
-# file_path = 'data4.csv'
-# cleaned_data = import_and_clean_data(file_path)
-# stationary_results = process_all_columns(cleaned_data)

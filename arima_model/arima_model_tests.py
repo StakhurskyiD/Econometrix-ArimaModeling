@@ -67,6 +67,7 @@ def show_adf_test_reslut(stationary_data):
         adf_results = adf_test(series, column)
         print(f"Order of Differencing applied: {order}\n")
 
+
 def hannan_rissanen_procedure(data, max_ar_order=15):
     if isinstance(data, np.ndarray):
         data = pd.Series(data)
@@ -115,14 +116,11 @@ def show_hannan_rissanen_procedure_results(stationary_data):
         series = info['series']
         order = info['order_of_differencing']
 
-        # Perform the ADF test and process the results within the same iteration
-        adf_results = adf_test(series, column)
-
         # Applying Hannan-Rissanen procedure
         hr_results = hannan_rissanen_procedure(series)
         print(hr_results)
         if hr_results:
-            print(f"Results for {column}:")
+            print(f"Hannan Rissanen Procedure Test Results for {column}:")
             print(f"Best AR Order: {hr_results['best_order']}")
             print(f"Best AIC: {hr_results['best_aic']}")
             print(f"Best BIC: {hr_results['best_bic']}")
